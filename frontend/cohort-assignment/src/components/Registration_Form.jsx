@@ -3,16 +3,16 @@ import axios from "axios";
 
 function Register(){
     const [formData, setFormData]=useState({
-        name="",
+        name:"",
         registration_no:"",
         email:"",
         password:"",
         age:""
     })
-}
+
 const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-
+    }
     const handleSubmit = async (e) => {
     e.preventDefault();
     try{
