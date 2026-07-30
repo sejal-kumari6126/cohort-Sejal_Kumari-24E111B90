@@ -76,6 +76,41 @@ app.post('/login', async(req,res)=>{
         })
     }
 })
+app.patch('/profile', async (req, res) => {
+
+    const { id, name, registration_no, email, password, age } = req.body;
+
+    try {
+        const updateQuery = `
+        UPDATE users
+        SET
+            name = $1,
+            registration_no = $2,
+            email = $3,
+            password = $4,
+            age = $5
+        WHERE id = $6
+        RETURNING *;
+        `;
+
+        const result = await db.query(updateQuery, [name,registration_no,email,password,age,id]);
+        res.status(200).json({
+            status: "Success",
+            message: "Profile updated successfully",
+            data: result.rows[0]
+        });
+
+    } catch (error) {
+
+        res.status(500).json({
+            status: "Failed",
+            message: "Profile update failed",
+            error: error.message
+        });
+
+    }
+
+});
 
 app.listen(process.env.PORT,(err)=>{
     if (err) console.log(err)
