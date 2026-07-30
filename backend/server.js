@@ -92,25 +92,46 @@ app.patch('/profile', async (req, res) => {
         WHERE id = $6
         RETURNING *;
         `;
-
+        
         const result = await db.query(updateQuery, [name,registration_no,email,password,age,id]);
         res.status(200).json({
             status: "Success",
             message: "Profile updated successfully",
             data: result.rows[0]
         });
-
     } catch (error) {
-
         res.status(500).json({
             status: "Failed",
             message: "Profile update failed",
             error: error.message
-        });
-
+        })
     }
+})
+app.delete('/profile', async (req, res) => {
 
-});
+    const {id} = req.body;
+
+    try {
+        const deleteQuery = `
+        DELETE FROM users
+        WHERE id = $1
+        RETURNING *;
+        `;
+        
+        const result = await db.query(deleteQuery, [id]);
+        res.status(200).json({
+            status: "Success",
+            message: "User deleted successfully",
+            data: result.rows[0]
+        });
+    } catch (error) {
+        res.status(500).json({
+            status: "Failed",
+            message: "user deletion failed",
+            error: error.message
+        })
+    }
+})
 
 app.listen(process.env.PORT,(err)=>{
     if (err) console.log(err)
