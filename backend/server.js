@@ -51,7 +51,28 @@ app.post('/user', async(req,res)=>{
         return res.status(500).json({
             status:"Failed",
             message:"User cannot be created",
-            error:error
+            error:error.message
+        })
+    }
+})
+app.post('/login', async(req,res)=>{
+    const {name,password}=req.body
+    try{
+        const createUserQuery=`
+        SELECT * FROM users
+        WHERE name= $1 AND password=$2;`;
+        const result= await db.query(createUserQuery,[name,password]);
+        res.status(201).json({
+            status:"Success",
+            message:"Login sucessful",
+            data:result.rows[0]
+        })
+    }
+    catch(error){
+        return res.status(500).json({
+            status:"Failed",
+            message:"Login failed",
+            error:error.message
         })
     }
 })
