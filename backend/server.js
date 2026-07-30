@@ -3,6 +3,8 @@ const app= express();
 require('dotenv').config()
 const PORT= process.env.PORT;
 
+app.use(express.urlencoded({extended:false}))
+app.use(express.json())
 const {initDatabase}=require('./controllers/initDb');
 const db=require('./models/connections.js');
 initDatabase();
@@ -31,6 +33,29 @@ app.get('/users', async(req,res)=>{
         })
     }
 })
+app.post('/user', async(req,res)=>{
+    const {name,registration_no,email,password,age}=req.body
+    try{
+        const createUserQuery=`
+        INSERT INTO users(name,registration_no,email,password,age)
+        VALUES ($1,$2,$3,$4,$5)
+        RETURNING id,name,registration_no,email,password,age;`;
+        const result= await db.query(createUserQuery,[name,registration_no,email,password,age]);
+        res.status(201).json({
+            status:"Success",
+            message:"Created user sucessfully",
+            data:result.rows[0]
+        })
+    }
+    catch(error){
+        return res.status(500).json({
+            status:"Failed",
+            message:"User cannot be created",
+            error:error
+        })
+    }
+})
+
 app.listen(process.env.PORT,(err)=>{
     if (err) console.log(err)
 })
