@@ -31,6 +31,7 @@ const handleChange = (e) => {
     };
      return (
          <form onSubmit={handleSubmit}>
+            <h1 color="white">Student Registration Form</h1>
             <input
                 type="text"
                 name="name"
@@ -38,6 +39,7 @@ const handleChange = (e) => {
                 value={formData.name}
                 onChange={handleChange}
             />
+            <br /><br />
 
             <input
                 type="text"
@@ -46,6 +48,7 @@ const handleChange = (e) => {
                 value={formData.registration_no}
                 onChange={handleChange}
             />
+             <br /><br />
 
             <input
                 type="email"
@@ -54,6 +57,7 @@ const handleChange = (e) => {
                 value={formData.email}
                 onChange={handleChange}
             />
+             <br /><br />
 
             <input
                 type="password"
@@ -62,6 +66,7 @@ const handleChange = (e) => {
                 value={formData.password}
                 onChange={handleChange}
             />
+             <br /><br />
 
             <input
                 type="number"
@@ -70,6 +75,7 @@ const handleChange = (e) => {
                 value={formData.age}
                 onChange={handleChange}
             />
+             <br /><br />
 
             <button type="submit">Register</button>
         </form>
